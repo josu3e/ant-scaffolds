@@ -1,37 +1,39 @@
+
 Scaffold para MicroServicio
 ---------------------------
 
-# Iniciar el project:
+### Iniciar el proyecto
 
-~~~~
-$ make build
-$ make build-latests
-$ make up
-~~~~
-
-
-# Ejecutar los test:
-
-~~~~
-$ make tests
-~~~~
+````bash
+> make build
+> make build-latests
+> make up
+````
 
 
-# Para ver mas comandos:
+### Ejecutar los test
 
-~~~~
-$ make
-~~~~
+````bash
+> make tests
+````
 
 
-# Variables Requeridas
+### Para ver más comandos
+
+````bash
+> make
+````
+
+
+### Variables Requeridas
 
 | variable | descripción |
 |----------|-------------|
 | name | nombre del proyecto |
 | product_name | nombre del producto (urbania, neoauto, aptitus, pagoefectivo) |
-| package | nombre que tendra tu paquete principal (project, user, search, etc) |
+| package | nombre que tendrá tu paquete principal (project, user, search, etc) |
 | api_version | versión de la API que se esta creando |
+| container_port | puerto donde escuchara el servicio |
 | slack_web_hook | webhook hacia donde jenkins notificara los despliegues |
 | https_listener_dev | listener para dev |
 | https_listener_pre | listener para pre |
