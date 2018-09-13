@@ -1,0 +1,18 @@
+version: '2'
+services:
+
+  backend:
+    image: $IMAGE_DEV
+    container_name: $CONTAINER_NAME
+    volumes:
+      - ./app/:/app
+    environment:
+      DEPLOY_REGION: $DEPLOY_REGION
+      TZ: America/Lima
+    ports:
+      - '8080:80'
+
+networks:
+  default:
+    external:
+      name: $DOCKER_NETWORK
