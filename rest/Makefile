@@ -71,6 +71,7 @@ up: ## up docker containers: make up
 	@make verify_network &> /dev/null
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
+	CONTAINER_PORT=$(CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
   DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -80,6 +81,7 @@ up: ## up docker containers: make up
 down: ## Stops and removes the docker containers: make down
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
+	CONTAINER_PORT=$(CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
   VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -88,6 +90,7 @@ down: ## Stops and removes the docker containers: make down
 status: ## Show containers status: make status
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
+	CONTAINER_PORT=$(CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -96,6 +99,7 @@ status: ## Show containers status: make status
 stop: ## Stops and removes the docker containers, use me with: make down
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
+	CONTAINER_PORT=$(CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -104,6 +108,7 @@ stop: ## Stops and removes the docker containers, use me with: make down
 restart: ## Restart all containers, use me with: make restart
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
+	CONTAINER_PORT=$(CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -116,6 +121,7 @@ ssh: ## Connect to container for ssh protocol
 log: ## Show container logs
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
+	CONTAINER_PORT=$(CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
