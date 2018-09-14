@@ -21,7 +21,7 @@ pipeline {
       description: "Numero ne instancias por incremento")
     text(name: 'MIN_SCALING',     defaultValue: '1',  description: 'Minimo de contenedores disponibles')
     text(name: 'MAX_SCALING',     defaultValue: '2',  description: 'Maximo de contenedores disponibles')
-    text(name: 'HTTPS_PRIORITY',  defaultValue: '1', description: 'Prioridad de listener Https en el ALB: dev=1')
+    text(name: 'HTTPS_PRIORITY',  defaultValue: '{{ https_priority }}', description: 'Prioridad de listener Https en el ALB: dev={{ https_priority }}')
   }
   options {
     ansiColor('xterm')
@@ -123,19 +123,6 @@ pipeline {
       steps {
         withEnv(enviromentArray){
             sh 'make tests'
-        }
-      }
-    }
-    stage('DB Migrations') {
-      steps {
-        withEnv(enviromentArray){
-            script {
-              if ("${params.MIGRATIONS}" == "true") {
-                sh 'make migrate'
-              } else {
-                echo 'no se ejecutaron las migraciones'
-              }
-            }
         }
       }
     }

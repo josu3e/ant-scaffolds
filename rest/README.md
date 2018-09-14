@@ -41,3 +41,4 @@ Scaffold para MicroServicio
 | vpc_dev | id de la vpc para dev |
 | vpc_pre | id de la vpc para pre |
 | vpc_prod | id de la vpc para prod |
+| https_priority | numero asignado a la aplicación dentro del listener, este número cambia de acuerdo al ambiente |
