@@ -10,7 +10,7 @@ services:
       DEPLOY_REGION: $DEPLOY_REGION
       TZ: America/Lima
     ports:
-      - '8080:80'
+      - '$CONTAINER_PORT:80'
 
 networks:
   default:
