@@ -12,10 +12,5 @@
     "vpc_dev": "{{ vpc_dev }}",
     "vpc_pre": "{{ vpc_pre }}",
     "vpc_prod": "{{ vpc_prod }}"
-  },
-  "created_files": [
-    {% for file in files %}
-    "{{ file }}"
-    {% endfor %}
-  ]
+  }
 }
