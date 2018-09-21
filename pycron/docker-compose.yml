@@ -1,0 +1,15 @@
+version: '2'
+services:
+  command:
+    image: $IMAGE_DEV
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    command:
+      - "$OWNER_schedules"
+      - $COMMAND
+
+networks:
+  default:
+    external:
+      name: $DOCKER_NETWORK

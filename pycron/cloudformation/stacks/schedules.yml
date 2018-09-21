@@ -1,0 +1,55 @@
+Description: >
+  Ejecucion de tareas programadas.
+
+Mappings:
+  RegionMap:
+    eu-west-1:
+      EnvRegion: "dev"
+    us-west-2:
+      EnvRegion: "pre"
+    us-east-1:
+      EnvRegion: "prod"
+
+Parameters:
+  TaskDefinition:
+    Description: Task Definition que esta designado para ejecutar la tarea
+    Type: String
+
+  RoleScheduleArn:
+    Description: Rol que permite ejecutar la tarea.
+    Type: String
+
+  ProjectName:
+    Description: Nombre del proyecto, hace referencia al nombre del stack
+    Type: String
+
+  ClusterArn:
+    Description: Cantidad de memoria asignada a la instancia del contenedor
+    Type: String
+
+Resources:
+  ExpirePackageTask:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub ${ProjectName}.{{ command_name }}
+      Description: Schedule para ejecutar un cron
+      ScheduleExpression: "cron(0 0 * * ? *)" ## more in https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
+      State: ENABLED
+      Targets:
+        -
+          Arn: !Ref ClusterArn
+          RoleArn: !Ref RoleScheduleArn
+          Id: !Sub ${ProjectName}.{{ command_name }}
+          EcsParameters:
+            TaskCount: 1
+            TaskDefinitionArn: !Ref TaskDefinition
+          Input: !Sub |
+            {
+              "containerOverrides":
+                [
+                  {
+                    "name": "${ProjectName}",
+                    "command": ["{{ product_name }}_schedules","{{ command_name }}" ]
+                  }
+                ]
+            }
