@@ -57,7 +57,8 @@ verify_network: ## Verify the local network was created in docker, normaly creat
 		(docker network create $(DOCKER_NETWORK));\
 	fi
 
-
+schedules: ## Connect to container for ssh protocol
+	docker exec -it $(CONTAINER_NAME) python3 /app/{{ package }}/cli.py "$@"
 
 ## Deploy ##
 

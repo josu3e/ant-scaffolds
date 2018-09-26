@@ -138,9 +138,6 @@ verify_network: ## Verify the local network was created in docker: make verify_n
 		(docker network create $(DOCKER_NETWORK));\
 	fi
 
-schedules: ## Connect to container for ssh protocol
-	docker exec -it $(CONTAINER_NAME) python3 /app/{{ package }}/cli.py "$@"
-
 ## Deploy ##
 
 sync-cloudformation: ## Sync additional cloudformation resources in S3: make sync-cloudformation
