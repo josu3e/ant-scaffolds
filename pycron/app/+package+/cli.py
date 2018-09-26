@@ -1,8 +1,6 @@
 import click
 import os
 
-from os.path import expanduser
-
 
 command_folder = os.path.join(os.path.dirname(__file__), 'commands')
 
@@ -35,3 +33,7 @@ cli = schedulesCli(help='Esta herramienta ayuda a ejecutar crones.')
 @click.command(cls=schedulesCli)
 def cli(ctx):
     pass
+
+
+if __name__ == '__main__':
+    cli()

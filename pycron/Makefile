@@ -57,6 +57,8 @@ verify_network: ## Verify the local network was created in docker, normaly creat
 		(docker network create $(DOCKER_NETWORK));\
 	fi
 
+
+
 ## Deploy ##
 
 install: ## Exec composer-update un cli image: make install
