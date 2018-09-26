@@ -32,7 +32,9 @@ STACK_PATH		= ${INFRA_BUCKET}/build/cloudformation/${OWNER}/${ENV}/${PROJECT_NAM
 
 ## Commons ##
 build: ## build image, use me with: make build
-	docker build -f docker/dev/Dockerfile -t ${IMAGE_DEV} docker/dev/
+	cp app/requirements.txt docker/dev/resources/requirements.txt
+	docker build -f docker/dev/Dockerfile -t $(IMAGE_DEV) docker/dev/
+	rm -f docker/dev/resources/requirements.txt
 
 ## Function Dev ##
 
