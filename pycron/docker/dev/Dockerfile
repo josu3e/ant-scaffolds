@@ -1,4 +1,4 @@
-FROM amazonlinux:2018.09
+FROM amazonlinux:2018.03
 
 # Install Python, tools and Nginx
 
