@@ -8,23 +8,16 @@ RUN yum -y update && yum -y install \
     python35-devel \
     gcc
 
-ADD resources /resources/
 RUN python35 --version
-RUN chmod +x /resources/test.sh
 
 ENV TZ=America/Lima
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-WORKDIR /resources/
-RUN pip-3.5 install -r ./requirements.txt
-
-# STDOUT LOG
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
+RUN pip-3.5 install -r /app/{{ package }}/requirements.txt
 
 ONBUILD ADD app /app/
 
 WORKDIR /app
 
 EXPOSE 80
-ENTRYPOINT /resources/runservices.sh
+ENTRYPOINT ["python3", "{{ package }}/cli.py"]
