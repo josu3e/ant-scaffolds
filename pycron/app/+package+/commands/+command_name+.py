@@ -2,10 +2,10 @@ import click
 
 
 @click.command()
-def command(ctx):
+def command():
     try:
-        print("== Its a test ==")
+        print("== Ejecutaste el comando: {{ command_name }} ==")
     except Exception as e:
-        print("== Ocrrio un problema durante la actualización ==")
+        print("== Ocrrio un problema durante la ejecución del comando: {{ command_name }} ==")
         print("="*10)
         print(e)

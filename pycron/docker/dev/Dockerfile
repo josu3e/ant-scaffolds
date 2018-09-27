@@ -1,6 +1,6 @@
 FROM amazonlinux:2018.03
 
-# Install Python, tools and Nginx
+# Install Python, tools
 
 RUN yum -y update && yum -y install \
     python35 \
@@ -10,6 +10,7 @@ RUN yum -y update && yum -y install \
 
 ADD resources /resources/
 RUN python35 --version
+ENV LC_ALL=en_US.UTF-8
 ENV TZ=America/Lima
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -20,4 +21,3 @@ ONBUILD ADD app /app/
 WORKDIR /app
 
 EXPOSE 80
-ENTRYPOINT ["python3", "{{ package }}/cli.py"]

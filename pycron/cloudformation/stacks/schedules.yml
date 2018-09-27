@@ -49,7 +49,7 @@ Resources:
                 [
                   {
                     "name": "${ProjectName}",
-                    "command": ["{{ product_name }}_schedules","{{ command_name }}" ]
+                    "command": ["python3","{{ package }}/cli.py {{ command_name }}" ]
                   }
                 ]
             }

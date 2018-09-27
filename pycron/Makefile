@@ -6,7 +6,6 @@ SERVICE_NAME 	= {{ package }}
 
 ## DEV ##
 TAG_DEV			= dev
-TAG_CLI 		= cli
 LOCAL_REGISTRY 	= local.$(OWNER).registry:5000
 DOCKER_NETWORK 	= $(OWNER)_network
 
@@ -23,7 +22,6 @@ MEMORY_SIZE 	?= 128
 PROJECT_NAME	= ${OWNER}-${ENV}-${SERVICE_NAME}
 CONTAINER_NAME 	= ${PROJECT_NAME}_backend
 IMAGE_DEV		= ${PROJECT_NAME}:${TAG_DEV}
-IMAGE_CLI		= ${PROJECT_NAME}:${TAG_CLI}
 TAG_DEPLOY		= ${BUILD_TIMESTAMP}.${BUILD_NUMBER}
 IMAGE_DEPLOY	= ${PROJECT_NAME}:${TAG_DEPLOY}
 CLUSTER 		= ${OWNER}-dev
@@ -42,25 +40,25 @@ pull: ## pull docker images from local Registery, use me with: make pull
 	docker pull $(LOCAL_REGISTRY)/$(IMAGE_DEV)
 	docker tag $(LOCAL_REGISTRY)/$(IMAGE_DEV) $(IMAGE_DEV)
 	docker rmi $(LOCAL_REGISTRY)/$(IMAGE_DEV)
-	docker pull $(LOCAL_REGISTRY)/$(IMAGE_CLI)
-	docker tag $(LOCAL_REGISTRY)/$(IMAGE_CLI) $(IMAGE_CLI)
-	docker rmi $(LOCAL_REGISTRY)/$(IMAGE_CLI)
+	docker pull $(LOCAL_REGISTRY)/$(IMAGE_DEPLOY)
+	docker tag $(LOCAL_REGISTRY)/$(IMAGE_DEPLOY) $(IMAGE_DEPLOY)
+	docker rmi $(LOCAL_REGISTRY)/$(IMAGE_DEPLOY)
 
 push: ## pull docker images from local Registry, use me with: make push
 	docker tag ${IMAGE_DEV} ${LOCAL_REGISTRY}/${IMAGE_DEV}
 	docker push ${LOCAL_REGISTRY}/${IMAGE_DEV}
 	docker rmi ${LOCAL_REGISTRY}/${IMAGE_DEV}
-	docker tag ${IMAGE_CLI} ${LOCAL_REGISTRY}/${IMAGE_CLI}
-	docker push ${LOCAL_REGISTRY}/${IMAGE_CLI}
-	docker rmi ${LOCAL_REGISTRY}/${IMAGE_CLI}
+	docker tag ${IMAGE_DEPLOY} ${LOCAL_REGISTRY}/${IMAGE_DEPLOY}
+	docker push ${LOCAL_REGISTRY}/${IMAGE_DEPLOY}
+	docker rmi ${LOCAL_REGISTRY}/${IMAGE_DEPLOY}
 
 verify_network: ## Verify the local network was created in docker, normaly created before up container service: make verify_network
 	@if [ -z $$(docker network ls | grep $(DOCKER_NETWORK) | awk '{print $$2}') ]; then\
 		(docker network create $(DOCKER_NETWORK));\
 	fi
 
-schedules: ## Connect to container for ssh protocol
-	docker exec -it $(CONTAINER_NAME) python3 /app/{{ package }}/cli.py "$@"
+schedules: ## Execute a command e.g: make schedules CMD=example
+	docker run -it --rm -v $(PWD)/app/:/app $(IMAGE_DEV) python3 $(SERVICE_NAME)/cli.py $(CMD)
 
 ## Deploy ##
 

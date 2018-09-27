@@ -31,7 +31,7 @@ cli = schedulesCli(help='Esta herramienta ayuda a ejecutar crones.')
 
 
 @click.command(cls=schedulesCli)
-def cli(ctx):
+def cli():
     pass
 
 
