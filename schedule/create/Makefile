@@ -1,8 +1,8 @@
 .DEFAULT_GOAL := help
 
 ## GENERAL ##
-OWNER 			= {{ product_name }}
-SERVICE_NAME 	= {{ package }}
+OWNER 			= {{ product_name|lower }}
+SERVICE_NAME 	= {{ package|lower }}
 
 ## DEV ##
 TAG_DEV			= dev
