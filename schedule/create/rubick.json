@@ -1,0 +1,9 @@
+{
+  "variables": {
+    "name": "{{ name }}",
+    "product_name": "{{ product_name }}",
+    "package": "{{ package }}",
+    "command_name": "{{ command_name }}",
+    "domain": "{{ domain }}"
+  }
+}

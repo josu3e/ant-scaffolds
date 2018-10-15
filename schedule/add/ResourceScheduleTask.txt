@@ -1,0 +1,25 @@
+  {{ command_name }}ScheduleTask:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub ${ProjectName}.{{ command_name }}
+      Description: Schedule para ejecutar un cron
+      ScheduleExpression: "cron(0 0 * * ? *)" ## more in https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
+      State: ENABLED
+      Targets:
+        -
+          Arn: !Ref ClusterArn
+          RoleArn: !Ref RoleScheduleArn
+          Id: !Sub ${ProjectName}.{{ command_name }}
+          EcsParameters:
+            TaskCount: 1
+            TaskDefinitionArn: !Ref TaskDefinition
+          Input: !Sub |
+            {
+              "containerOverrides":
+                [
+                  {
+                    "name": "${ProjectName}",
+                    "command": ["python3","{{ package }}/cli.py {{ command_name }}" ]
+                  }
+                ]
+            }

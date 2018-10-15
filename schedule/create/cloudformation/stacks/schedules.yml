@@ -28,7 +28,7 @@ Parameters:
     Type: String
 
 Resources:
-  ExpirePackageTask:
+  {{ command_name }}ScheduleTask:
     Type: AWS::Events::Rule
     Properties:
       Name: !Sub ${ProjectName}.{{ command_name }}

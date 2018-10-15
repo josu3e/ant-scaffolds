@@ -5,13 +5,13 @@ Mappings:
   RegionMap:
     eu-west-1:
       EnvRegion: "dev"
-      EnvBucket: "dev.{{ product_name }}.com"
+      EnvBucket: "dev.{{ domain }}"
     us-west-2:
       EnvRegion: "pre"
-      EnvBucket: "pre.{{ product_name }}.com"
+      EnvBucket: "pre.{{ domain }}"
     us-east-1:
       EnvRegion: "prod"
-      EnvBucket: "{{ product_name }}.com"
+      EnvBucket: "{{ domain }}"
 
 Parameters:
 
