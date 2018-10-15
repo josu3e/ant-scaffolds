@@ -32,5 +32,4 @@ Scaffold para Crones con Python
 | name | nombre del proyecto |
 | product_name | nombre del producto (urbania, neoauto, aptitus, pagoefectivo) |
 | command_name | nombre que tendrá el comando ( feed:trovit  <tipo>:<acción>) |
-| package | nombre que tendrá el paquete |
 | domain | nombre de dominio del producto |
