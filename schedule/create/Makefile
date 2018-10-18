@@ -2,7 +2,7 @@
 
 ## GENERAL ##
 OWNER 			= {{ product_name|lower }}
-SERVICE_NAME 	= {{ package|lower }}
+SERVICE_NAME 	= schdules
 
 ## DEV ##
 TAG_DEV			= dev

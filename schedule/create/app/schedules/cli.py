@@ -1,8 +1,18 @@
 import click
 import os
+import yaml
 
 
+config_folder = os.path.join(os.path.dirname(__file__), 'config.yml')
 command_folder = os.path.join(os.path.dirname(__file__), 'commands')
+
+
+class Context(object):
+    def __init__(self):
+        self.config = yaml.load(open(config_folder, 'r').read())
+
+
+pass_context = click.make_pass_decorator(Context, ensure=True)
 
 
 class schedulesCli(click.MultiCommand):
@@ -31,9 +41,11 @@ cli = schedulesCli(help='Esta herramienta ayuda a ejecutar crones.')
 
 
 @click.command(cls=schedulesCli)
-def cli():
+@pass_context
+def cli(ctx):
     pass
 
 
 if __name__ == '__main__':
-    cli()
+    @pass_context
+    cli(ctx)
