@@ -49,7 +49,7 @@ Resources:
                 [
                   {
                     "name": "${ProjectName}",
-                    "command": ["urbania","example" ]
+                    "command": ["{{ product_name }}","{{ command_name }}" ]
                   }
                 ]
             }
