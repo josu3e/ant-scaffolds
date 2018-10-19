@@ -47,5 +47,4 @@ def cli(ctx):
 
 
 if __name__ == '__main__':
-    @pass_context
-    cli(ctx)
+    cli()

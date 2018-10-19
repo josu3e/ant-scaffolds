@@ -2,7 +2,7 @@
 
 ## GENERAL ##
 OWNER 			= {{ product_name|lower }}
-SERVICE_NAME 	= schdules
+SERVICE_NAME 	= schedules
 
 ## DEV ##
 TAG_DEV			= dev
@@ -58,7 +58,7 @@ verify_network: ## Verify the local network was created in docker, normaly creat
 	fi
 
 schedules: ## Execute a command e.g: make schedules CMD=example
-	docker run -it --rm -v $(PWD)/app/:/app $(IMAGE_DEV) python3 $(SERVICE_NAME)/cli.py $(CMD)
+	@docker run -it --rm $(IMAGE_DEPLOY) $(OWNER) $(CMD)
 
 ## Deploy ##
 

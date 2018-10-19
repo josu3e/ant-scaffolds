@@ -28,10 +28,10 @@ Parameters:
     Type: String
 
 Resources:
-  {{ command_name }}ScheduleTask:
+  exampleScheduleTask:
     Type: AWS::Events::Rule
     Properties:
-      Name: !Sub ${ProjectName}.{{ command_name }}
+      Name: !Sub ${ProjectName}.example
       Description: Schedule para ejecutar un cron
       ScheduleExpression: "cron(0 0 * * ? *)" ## more in https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
       State: ENABLED
@@ -39,7 +39,7 @@ Resources:
         -
           Arn: !Ref ClusterArn
           RoleArn: !Ref RoleScheduleArn
-          Id: !Sub ${ProjectName}.{{ command_name }}
+          Id: !Sub ${ProjectName}.example
           EcsParameters:
             TaskCount: 1
             TaskDefinitionArn: !Ref TaskDefinition
@@ -49,7 +49,7 @@ Resources:
                 [
                   {
                     "name": "${ProjectName}",
-                    "command": ["python3","{{ package }}/cli.py {{ command_name }}" ]
+                    "command": ["urbania","example" ]
                   }
                 ]
             }
