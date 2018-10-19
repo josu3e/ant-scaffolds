@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := help
+.PHONY : schedules
 
 ## GENERAL ##
 OWNER 			= {{ product_name|lower }}
