@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 setup(
-    name = "{{ owner }}",
+    name = "{{ product_name }}",
     version = "0.0.1",
     author = "Orbis Venture S.A.C",
     author_email = "oscar.sanchez@orbis.com.pe",
@@ -18,5 +18,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    scripts = ['bin/{{ owner }}'],
+    scripts = ['bin/{{ product_name }}'],
 )
