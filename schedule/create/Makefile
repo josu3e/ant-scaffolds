@@ -30,9 +30,7 @@ STACK_PATH		= ${INFRA_BUCKET}/build/cloudformation/${OWNER}/${ENV}/${PROJECT_NAM
 
 ## Commons ##
 build: ## build image, use me with: make build
-	cp app/requirements.txt docker/dev/resources/requirements.txt
 	docker build -f docker/dev/Dockerfile -t $(IMAGE_DEV) docker/dev/
-	rm -f docker/dev/resources/requirements.txt
 
 ## Function Dev ##
 
@@ -51,11 +49,6 @@ push: ## pull docker images from local Registry, use me with: make push
 	docker tag ${IMAGE_DEPLOY} ${LOCAL_REGISTRY}/${IMAGE_DEPLOY}
 	docker push ${LOCAL_REGISTRY}/${IMAGE_DEPLOY}
 	docker rmi ${LOCAL_REGISTRY}/${IMAGE_DEPLOY}
-
-verify_network: ## Verify the local network was created in docker, normaly created before up container service: make verify_network
-	@if [ -z $$(docker network ls | grep $(DOCKER_NETWORK) | awk '{print $$2}') ]; then\
-		(docker network create $(DOCKER_NETWORK));\
-	fi
 
 schedules: ## Execute a command e.g: make schedules CMD=example
 	@docker run -it --rm $(IMAGE_DEPLOY) $(OWNER) $(CMD)
