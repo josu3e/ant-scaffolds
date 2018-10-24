@@ -28,6 +28,7 @@ Parameters:
     Type: String
 
 Resources:
+  {% block schedule_task %}
   exampleScheduleTask:
     Type: AWS::Events::Rule
     Properties:
@@ -53,3 +54,5 @@ Resources:
                   }
                 ]
             }
+
+  {% endblock %}
