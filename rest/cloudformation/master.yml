@@ -4,16 +4,16 @@ Description: >
 Mappings:
   RegionMap:
     eu-west-1:
-      HttpsListener: {{ https_listener_dev }}
-      VpcId: {{ vpc_dev }}
+      HttpsListener: "{{ https_listener_dev }}"
+      VpcId: "{{ vpc_dev }}"
       EnvRegion: "dev"
     us-west-2:
-      HttpsListener: {{ https_listener_pre }}
-      VpcId: {{ vpc_pre }}
+      HttpsListener: "{{ https_listener_pre }}"
+      VpcId: "{{ vpc_pre }}"
       EnvRegion: "pre"
     us-east-1:
-      HttpsListener:  {{ https_listener_prod }}
-      VpcId: {{ vpc_prod }}
+      HttpsListener:  "{{ https_listener_prod }}"
+      VpcId: "{{ vpc_prod }}"
       EnvRegion: "prod"
 
 Parameters:
