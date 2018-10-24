@@ -29,7 +29,7 @@ Parameters:
 
 Resources:
   {% block schedule_task %}
-  exampleScheduleTask:
+    {{ command_name | lower }}ScheduleTask:
     Type: AWS::Events::Rule
     Properties:
       Name: !Sub ${ProjectName}.example
