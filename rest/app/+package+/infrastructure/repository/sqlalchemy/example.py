@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from {{ package }}.domain.repository.example import ExampleRepository
-from {{ package }}.domain.entities.example import Example
+from {{ package }}.domain.repository.{{ resource_name }} import {{ resource }}Repository
+from {{ package }}.domain.entities.{{ resource_name }} import {{ resource }}
 
 
-class ExampleSqlAlchemyRepository(ExampleRepository):
+class {{ resource }}SqlAlchemyRepository({{ resource }}Repository):
 
     def __init__(self):
-        self.entity = Example
+        self.entity = {{ resource }}
 
-    def create(self, example_entity):
+    def create(self, {{ resource_name }}_entity):
         try:
             pass
         except Exception as e:

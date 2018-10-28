@@ -5,9 +5,9 @@ from bootstrap.container import MockAppServicesInjector
 from .base import BaseCollectionHandler, BaseHandler
 
 
-class ExampleCollectionHandler(BaseCollectionHandler):
-    service = MockAppServicesInjector.example()
+class {{ resource }}CollectionHandler(BaseCollectionHandler):
+    service = MockAppServicesInjector.{{ resource_name }}()
 
 
-class ExampleHandler(BaseHandler):
-    service = MockAppServicesInjector.example()
+class {{ resource }}Handler(BaseHandler):
+    service = MockAppServicesInjector.{{ resource_name }}()

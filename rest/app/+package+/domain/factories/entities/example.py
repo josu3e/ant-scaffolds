@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from {{ package }}.domain.entities.example import Example
+from {{ package }}.domain.entities.{{ resource_name }} import {{ resource }}
 
 
-class ExampleFactory():
+class {{ resource }}Factory():
     @staticmethod
     def create(**kwargs):
-        return Example(**kwargs)
+        return {{ resource }}(**kwargs)

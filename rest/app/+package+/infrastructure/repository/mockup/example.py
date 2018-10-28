@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from {{ package }}.domain.repository.example import ExampleRepository
-from {{ package }}.domain.factories.entities.example import ExampleFactory
-from {{ package }}.domain.entities.example import Example
+from {{ package }}.domain.repository.{{ resource_name }} import {{ resource }}Repository
+from {{ package }}.domain.factories.entities.{{ resource_name }} import {{ resource }}Factory
+from {{ package }}.domain.entities.{{ resource_name }} import {{ resource }}
 
 
-class MockExampleRepository(ExampleRepository):
+class Mock{{ resource }}Repository({{ resource }}Repository):
 
     def __init__(self):
         self.data = [
@@ -16,16 +16,16 @@ class MockExampleRepository(ExampleRepository):
             },
         ]
 
-    def create(self, example):
+    def create(self, {{ resource_name }}):
         self.data.append(
             {
-                'id': example.id,
-                'name': example.name,
+                'id': {{ resource_name }}.id,
+                'name': {{ resource_name }}.name,
             }
         )
         return True
 
-    def update(self, project):
+    def update(self, {{ resource_name }}):
         pass
 
     def delete(self, id):
@@ -33,13 +33,14 @@ class MockExampleRepository(ExampleRepository):
 
     def find_all(self):
         resp = []
-        for example in self.data:
-            example_entity = ExampleFactory.create(**example)
-            resp.append({'id': example_entity.id, 'name': example_entity.name})
+        for {{ resource_name }} in self.data:
+            {{ resource_name }}_entity = {{ resource }}Factory.create(**{{ resource_name }})
+            resp.append({'id': {{ resource_name }}_entity.id, 'name': {{ resource_name }}_entity.name})
         return resp
 
     def find_by_id(self, id):
-        for example in self.data:
-            if example['id'] is int(id):
-                example_entity = ExampleFactory.create(**example)
-                return {'id': example_entity.id, 'name': example_entity.name}
+        for {{ resource_name }} in self.data:
+            if {{ resource_name }}['id'] is int(id):
+                {{ resource_name }}_entity = {{ resource }}Factory.create(**{{ resource_name }})
+                return {'id': {{ resource_name }}_entity.id, 'name': {{ resource_name }}_entity.name}
+

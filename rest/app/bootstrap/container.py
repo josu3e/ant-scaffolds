@@ -12,12 +12,12 @@ class RepositoryInjector(containers.DeclarativeContainer):
     example = providers.Singleton(ExampleSqlAlchemyRepository)
 
 
-class DomainServicesInjector(containers.DeclarativeContainer):
+class DomainServiceInjector(containers.DeclarativeContainer):
     example = providers.Singleton(ExampleDomainService, repository=RepositoryInjector.example)
 
 
-class AppServicesInjector(containers.DeclarativeContainer):
-    example = providers.Singleton(ExampleAppService, domain_service=DomainServicesInjector.example)
+class AppServiceInjector(containers.DeclarativeContainer):
+    example = providers.Singleton(ExampleAppService, domain_service=DomainServiceInjector.example)
 
 
 '''
@@ -29,9 +29,9 @@ class MockRepositoryInjector(containers.DeclarativeContainer):
     example = providers.Factory(MockExampleRepository)
 
 
-class MockDomainServicesInjector(containers.DeclarativeContainer):
+class MockDomainServiceInjector(containers.DeclarativeContainer):
     example = providers.Factory(ExampleDomainService, repository=MockRepositoryInjector.example)
 
 
-class MockAppServicesInjector(containers.DeclarativeContainer):
-    example = providers.Singleton(ExampleAppService, domain_service=MockDomainServicesInjector.example)
+class MockAppServiceInjector(containers.DeclarativeContainer):
+    example = providers.Singleton(ExampleAppService, domain_service=MockDomainServiceInjector.example)

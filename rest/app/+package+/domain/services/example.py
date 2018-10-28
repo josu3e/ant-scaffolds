@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class ExampleDomainService(object):
+class {{ resource }}DomainService(object):
 
     def __init__(self, repository):
         self.repository = repository
@@ -12,11 +12,11 @@ class ExampleDomainService(object):
     def find_all(self):
         return self.repository.find_all()
 
-    def create(self, example_entity):
-        return self.repository.create(example_entity)
+    def create(self, {{ resource_name }}_entity):
+        return self.repository.create({{ resource_name }}_entity)
 
-    def update(self, id, example_entity):
-        return self.repository.update(id, example_entity)
+    def update(self, id, {{ resource_name }}_entity):
+        return self.repository.update(id, {{ resource_name }}_entity)
 
     def delete(self, id):
         return self.repository.delete(id)
