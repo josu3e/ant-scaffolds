@@ -1,7 +1,7 @@
-base:
-  name: 'pythonSCHEDULE'
+scaffold:
+  author: 'DevLusaja'
+  name: 'python-schedule'
   description: 'Proyecto para la creación de schedules (crones) en el lenguaje Python'
-  scaffold_name: 'python-schedule'
   save_prompts: 'rubick_prompts.json'
   prompts:
     -
