@@ -51,8 +51,8 @@ pipeline {
               "HTTPS_PRIORITY=${HTTPS_PRIORITY}",
               "MEMORY_SIZE=${MEMORY_SIZE}",
               "INFRA_BUCKET=infraestructura.${ENV_CONFIG.baseEnv}",
-              "SLACK_CHANNEL=${OWNER}-${ENV_CONFIG.baseEnv}-changelog",
-              "ECS_CLUSTER=${OWNER}-${ENV_CONFIG.baseEnv}"
+              "SLACK_CHANNEL={{ owner }}-${ENV_CONFIG.baseEnv}-changelog",
+              "ECS_CLUSTER={{ owner }}-${ENV_CONFIG.baseEnv}"
           ]
 
           print "Set enviroments"

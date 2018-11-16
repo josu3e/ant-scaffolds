@@ -3,7 +3,8 @@
 ## GENERAL ##
 OWNER 			= {{ product_name }}
 SERVICE_NAME 	= {{ package }}
-PATH_PREFIX 	= {{ api_version }}
+PATH_PREFIX 	= /{{ api_version }}
+DOMAIN			= {{ ms_domain }}
 
 ## DEV ##
 TAG_DEV			= dev
@@ -173,6 +174,7 @@ update-service: ## Deploy service with cloudformation: make update-service
 		PathPrefix=$(PATH_PREFIX) \
 		ContainerPort=$(CONTAINER_PORT) \
 		MemorySize=$(MEMORY_SIZE) \
+		Domain=$(DOMAIN) \
 	--region $(DEPLOY_REGION) \
 	--capabilities CAPABILITY_NAMED_IAM
 
