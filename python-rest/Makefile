@@ -13,7 +13,7 @@ TAG_CLI 		= cli
 ## DEPLOY ##
 ENV 			?= dev
 BUILD_NUMBER 	?= 000006
-BUILD_TIMESTAMP ?= 20181004
+BUILD_TIMESTAMP ?= ${shell date '+%d%m%Y'}
 DEPLOY_REGION 	?= eu-west-1
 ACCOUNT_ID		?= 929226109038
 DESIRED_COUNT 	?= 1
@@ -21,7 +21,8 @@ MIN_SCALING		?= 1
 MAX_SCALING		?= 2
 HTTPS_PRIORITY 	?= 41
 MEMORY_SIZE 	?= 128
-CONTAINER_PORT 	?= {{ container_port }}
+LOCAL_CONTAINER_PORT 	?= {{ container_port }}
+AWS_CONTAINER_PORT 	?= 80
 INFRA_BUCKET 	?= infraestructura.$(ENV)
 SLACK_CHANNEL   ?= $(OWNER)-$(ENV)-changelog
 SLACK_WEB_HOOK ?= {{ slack_web_hook }}
@@ -72,7 +73,7 @@ up: ## up docker containers: make up
 	@make verify_network &> /dev/null
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
-	CONTAINER_PORT=$(CONTAINER_PORT) \
+	CONTAINER_PORT=$(LOCAL_CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
   DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -82,7 +83,7 @@ up: ## up docker containers: make up
 down: ## Stops and removes the docker containers: make down
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
-	CONTAINER_PORT=$(CONTAINER_PORT) \
+	CONTAINER_PORT=$(LOCAL_CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
   VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -91,7 +92,7 @@ down: ## Stops and removes the docker containers: make down
 status: ## Show containers status: make status
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
-	CONTAINER_PORT=$(CONTAINER_PORT) \
+	CONTAINER_PORT=$(LOCAL_CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -100,7 +101,7 @@ status: ## Show containers status: make status
 stop: ## Stops and removes the docker containers, use me with: make down
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
-	CONTAINER_PORT=$(CONTAINER_PORT) \
+	CONTAINER_PORT=$(LOCAL_CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -109,7 +110,7 @@ stop: ## Stops and removes the docker containers, use me with: make down
 restart: ## Restart all containers, use me with: make restart
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
-	CONTAINER_PORT=$(CONTAINER_PORT) \
+	CONTAINER_PORT=$(LOCAL_CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -122,7 +123,7 @@ ssh: ## Connect to container for ssh protocol
 log: ## Show container logs
 	@IMAGE_DEV=$(IMAGE_DEV) \
 	CONTAINER_NAME=$(CONTAINER_NAME) \
-	CONTAINER_PORT=$(CONTAINER_PORT) \
+	CONTAINER_PORT=$(LOCAL_CONTAINER_PORT) \
 	DOCKER_NETWORK=$(DOCKER_NETWORK) \
 	VIRTUAL_HOST=$(VIRTUAL_HOST) \
 	DEPLOY_REGION=$(DEPLOY_REGION) \
@@ -172,7 +173,7 @@ update-service: ## Deploy service with cloudformation: make update-service
 		Env=$(ENV) \
 		Owner=$(OWNER) \
 		PathPrefix=$(PATH_PREFIX) \
-		ContainerPort=$(CONTAINER_PORT) \
+		ContainerPort=$(AWS_CONTAINER_PORT) \
 		MemorySize=$(MEMORY_SIZE) \
 		Domain=$(DOMAIN) \
 	--region $(DEPLOY_REGION) \

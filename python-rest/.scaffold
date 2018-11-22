@@ -9,6 +9,10 @@ scaffold:
       description: 'Enter the product name [urbania, neo, aptitus, pagoefectivo]'
       default: 'orbis'
     -
+      name: 'domain'
+      description: 'Enter the microservice domain'
+      default: 'domain.com'
+    -
       name: 'package'
       description: 'Enter the package name for your APP'
       default: 'context'
