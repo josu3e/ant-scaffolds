@@ -1,17 +1,21 @@
 scaffold:
   author: 'DevLusaja'
   name: 'python-schedule'
-  description: 'Proyecto para la creación de schedules (crones) en el lenguaje Python'
-  save_prompts: 'rubick_prompts.json'
+  description: 'Python schedule using click library'
+  save_prompts: 'prompts.json'
   prompts:
     -
+      name: 'product_name'
+      description: 'Enter the product name [urbania, neo, aptitus, pagoefectivo]'
+      default: 'orbis'
+    -
       name: 'command_name'
-      description: 'Ingrese el nombre de su comando'
+      description: 'enter the command name'
       default: 'example'
     -
       name: 'domain'
-      description: 'Ingrese el nombre de dominio de su producto'
-      default: 'mydomain.com'
+      description: 'Enter the product domain'
+      default: 'domain.com'
   replace_names:
     -
       search: '+owner+'
