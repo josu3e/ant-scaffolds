@@ -62,6 +62,9 @@ install: ## Exec composer-update un cli image: make install
 sync-cloudformation: ## Sync additional cloudformation resources in S3 before to push image to registry in aws: make sync-cloudformation
 	@aws s3 sync ./cloudformation/stacks s3://${STACK_PATH}
 
+sync-config: ## Sync configs files from S3: make sync-config
+	aws s3 sync s3://$(INFRA_BUCKET)/config/container/$(OWNER)/$(ENV)/$(SERVICE_NAME)/ schedules
+
 build-latest: ## Build image to push to aws ECR: make build-latest
 	docker build -f docker/latest/Dockerfile --no-cache --build-arg IMAGE=${IMAGE_DEV} -t ${IMAGE_DEPLOY} .
 
@@ -96,6 +99,16 @@ create-registry:
 		ProjectName=$(PROJECT_NAME) \
 	--region $(DEPLOY_REGION) \
 	--capabilities CAPABILITY_IAM
+
+
+## Execute on demand in AWS ##
+
+run-command:
+	aws ecs run-task \
+		--cluster ${CLUSTER} \
+		--task-definition ${PROJECT_NAME} \
+		--overrides '{"containerOverrides":[{"command":["/usr/local/bin/$(OWNER)","${COMMAND}"],"name":"${PROJECT_NAME}"}]}' \
+		--region ${DEPLOY_REGION}
 
 ## Help ##
 help:
