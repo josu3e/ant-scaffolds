@@ -1,4 +1,4 @@
-- prefix: '/{{ api_version }}/examples'
+- prefix: '/{{ api_version }}/health'
 - routes:
-  - /: {{ package }}.application.framework.handlers.example.ExampleCollectionHandler
-  - /{id}: {{ package }}.application.framework.handlers.example.ExampleHandler
+  - /: {{ package }}.application.framework.handlers.health.HealthCollectionHandler
+  - /{id}: {{ package }}.application.framework.handlers.health.HealthHandler

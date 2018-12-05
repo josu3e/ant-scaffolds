@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from .base import BaseAppService
-from {{ package }}.domain.factories.entities.example import ExampleFactory
+from {{ package }}.domain.factories.entities.health import HealthFactory
 from {{ package }}.infrastructure.helpers.try_except import handler_except
 
 
-class ExampleAppService(BaseAppService):
+class HealthAppService(BaseAppService):
 
     def __init__(self, domain_service):
         self.__domain_service = domain_service
@@ -21,13 +21,13 @@ class ExampleAppService(BaseAppService):
 
     @handler_except
     def create(self, **kwargs):
-        example_entity = ExampleFactory.create(**kwargs)
-        result = self.__domain_service.create(example_entity)
+        health_entity = HealthFactory.create(**kwargs)
+        result = self.__domain_service.create(health_entity)
 
     @handler_except
     def update(self, id, **kwargs):
-        example_entity = ProjectFactory.create(**kwargs)
-        result = self.__domain_service.update(id, example_entity)
+        health_entity = HealthFactory.create(**kwargs)
+        result = self.__domain_service.update(id, health_entity)
         return result
 
     @handler_except

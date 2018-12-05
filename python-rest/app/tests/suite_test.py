@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from tests.example import ExampleTestCase
+from tests.health import HealthTestCase
 
 
 def suite():
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
-    suite.addTests(loader.loadTestsFromModule(ExampleTestCase))
+    suite.addTests(loader.loadTestsFromModule(HealthTestCase))
     return suite
 
 

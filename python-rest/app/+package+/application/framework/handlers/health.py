@@ -5,9 +5,9 @@ from bootstrap.container import MockAppServicesInjector
 from .base import BaseCollectionHandler, BaseHandler
 
 
-class ExampleCollectionHandler(BaseCollectionHandler):
-    service = MockAppServicesInjector.example()
+class HealthCollectionHandler(BaseCollectionHandler):
+    service = MockAppServicesInjector.health()
 
 
-class ExampleHandler(BaseHandler):
-    service = MockAppServicesInjector.example()
+class HealthHandler(BaseHandler):
+    service = MockAppServicesInjector.health()

@@ -2,22 +2,21 @@
 import dependency_injector.containers as containers
 import dependency_injector.providers as providers
 
-from {{ package }}.application.services.example import ExampleAppService
-from {{ package }}.domain.services.example import ExampleDomainService
-from {{ package }}.infrastructure.repository.mockup.example import MockExampleRepository
-from {{ package }}.infrastructure.repository.sqlalchemy.example import ExampleSqlAlchemyRepository
+from {{ package }}.application.services.health import HealthAppService
+from {{ package }}.domain.services.health import HealthDomainService
+from {{ package }}.infrastructure.repository.mockup.health import MockHealthRepository
 
 
 class RepositoryInjector(containers.DeclarativeContainer):
-    example = providers.Singleton(ExampleSqlAlchemyRepository)
+    health = providers.Singleton(None)
 
 
 class DomainServicesInjector(containers.DeclarativeContainer):
-    example = providers.Singleton(ExampleDomainService, repository=RepositoryInjector.example)
+    health = providers.Singleton(HealthDomainService, repository=RepositoryInjector.health)
 
 
 class AppServicesInjector(containers.DeclarativeContainer):
-    example = providers.Singleton(ExampleAppService, domain_service=DomainServicesInjector.example)
+    health = providers.Singleton(HealthAppService, domain_service=DomainServicesInjector.health)
 
 
 '''
@@ -26,12 +25,12 @@ Mock Class
 
 
 class MockRepositoryInjector(containers.DeclarativeContainer):
-    example = providers.Factory(MockExampleRepository)
+    health = providers.Factory(MockHealthRepository)
 
 
 class MockDomainServicesInjector(containers.DeclarativeContainer):
-    example = providers.Factory(ExampleDomainService, repository=MockRepositoryInjector.example)
+    health = providers.Factory(HealthDomainService, repository=MockRepositoryInjector.health)
 
 
 class MockAppServicesInjector(containers.DeclarativeContainer):
-    example = providers.Singleton(ExampleAppService, domain_service=MockDomainServicesInjector.example)
+    health = providers.Singleton(HealthAppService, domain_service=MockDomainServicesInjector.health)

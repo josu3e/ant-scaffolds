@@ -2,13 +2,13 @@
 from abc import ABC, abstractmethod
 
 
-class ExampleRepository(ABC):
+class HealthRepository(ABC):
     @abstractmethod
-    def create(self, example_entity):
+    def create(self, health_entity):
         raise NotImplementedError
 
     @abstractmethod
-    def update(self, id, example_entity):
+    def update(self, id, health_entity):
         raise NotImplementedError
 
     @abstractmethod
