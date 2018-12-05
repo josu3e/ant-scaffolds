@@ -4,6 +4,7 @@ scaffold:
   description: 'python API with clean architecture'
   save_prompts: 'prompts.json'
   prompts:
+    -
       name: 'package'
       description: 'Enter the package name for your APP'
       default: 'context'
