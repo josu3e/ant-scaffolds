@@ -4,15 +4,6 @@ scaffold:
   description: 'python API with clean architecture'
   save_prompts: 'prompts.json'
   prompts:
-    -
-      name: 'product_name'
-      description: 'Enter the product name [urbania, neo, aptitus, pagoefectivo]'
-      default: 'orbis'
-    -
-      name: 'domain'
-      description: 'Enter the microservice domain'
-      default: 'domain.com'
-    -
       name: 'package'
       description: 'Enter the package name for your APP'
       default: 'context'
@@ -24,38 +15,6 @@ scaffold:
       name: 'container_port'
       description: 'Enter the container port'
       default: '8080'
-    -
-      name: 'slack_web_hook'
-      description: 'Enter the slack web hook'
-      default: 'undefined'
-    -
-      name: 'https_listener_dev'
-      description: 'Enter the ARN for DEV https listener'
-      default: 'undefined'
-    -
-      name: 'https_listener_pre'
-      description: 'Enter the ARN for PRE https listener'
-      default: 'undefined'
-    -
-      name: 'https_listener_prod'
-      description: 'Enter the ARN for PROD https listener'
-      default: 'undefined'
-    -
-      name: 'vpc_dev'
-      description: 'Enter the ARN for DEV vpc'
-      default: 'undefined'
-    -
-      name: 'vpc_pre'
-      description: 'Enter the ARN for PRE vpc'
-      default: 'undefined'
-    -
-      name: 'vpc_prod'
-      description: 'Enter the ARN for PROD vpc'
-      default: 'undefined'
-    -
-      name: 'https_priority'
-      description: 'Enter the https listener priority'
-      default: 'undefined'
   replace_names:
     -
       search: '+package+'
