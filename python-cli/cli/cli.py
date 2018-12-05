@@ -37,7 +37,7 @@ class schedulesCli(click.MultiCommand):
             return
 
 
-cli = schedulesCli(help='Esta herramienta ayuda a ejecutar crones.')
+cli = schedulesCli(help='Aplicación por linea de comandos.')
 
 
 @click.command(cls=schedulesCli)

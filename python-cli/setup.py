@@ -5,9 +5,9 @@ package_dir = os.path.abspath(os.path.dirname(__file__))
 setup(
     name = "{{ product_name }}",
     version = "0.0.1",
-    author = "Orbis Venture S.A.C",
-    author_email = "oscar.sanchez@orbis.com.pe",
-    description = "Herramienta para la creación de proyectos base",
+    author = "Author Name",
+    author_email = "Author Email",
+    description = "Aplicación por linea de comandos",
     package_data={'': ['config.yml']},
     packages = find_packages(),
     include_package_data=True,

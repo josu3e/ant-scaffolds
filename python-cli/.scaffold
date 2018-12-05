@@ -1,0 +1,14 @@
+scaffold:
+  author: 'DevLusaja'
+  name: 'python-cli'
+  description: 'Python cli using click library'
+  save_prompts: 'prompts.json'
+  prompts:
+    -
+      name: 'command_name'
+      description: 'enter the command name'
+      default: 'example'
+  replace_names:
+    -
+      search: '+command_name+'
+      use_prompt: 'command_name'
