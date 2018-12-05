@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace web
 {
     [Produces("application/json")]
-    [Route("v1/boilerplate/health")]
+    [Route("v1/{{server_name}}/health")]
     public class Health : Controller
     {
         [HttpGet]
