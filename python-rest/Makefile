@@ -1,13 +1,12 @@
 .DEFAULT_GOAL := help
 
 ## General vars ##
-SERVICE_NAME 	= {{ package }}
-PATH_PREFIX 	= /{{ api_version }}
 CONTAINER_PORT  = {{ container_port }}
 TAG_DEV			= dev
 
 ## Result vars ##
-PROJECT_NAME	= $(SERVICE_NAME)Project
+SERVICE_NAME 	= ${PWD##*/}
+PROJECT_NAME	= $(SERVICE_NAME)_project
 CONTAINER_NAME 	= $(PROJECT_NAME)_backend
 IMAGE_DEV		= $(PROJECT_NAME):$(TAG_DEV)
 
