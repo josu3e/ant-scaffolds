@@ -8,7 +8,7 @@ from {{ package }}.infrastructure.repository.mockup.health import MockHealthRepo
 
 
 class RepositoryInjector(containers.DeclarativeContainer):
-    health = providers.Singleton(None)
+    health = providers.Singleton(MockHealthRepository)
 
 
 class DomainServicesInjector(containers.DeclarativeContainer):
