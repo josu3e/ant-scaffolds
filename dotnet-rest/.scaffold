@@ -1,0 +1,14 @@
+scaffold:
+  author: 'Devteam@pagoefectivo.pe'
+  name: 'dotnet-rest'
+  description: 'API escrita en el lenguaje dotnet utilizando rest.'
+  save_prompts: 'rubick_prompts.json'
+  prompts:
+    -
+      name: 'server_name'
+      description: 'Ingresa el nombre del paquete principal para tu app'
+      default: 'context'
+  replace_names:
+    -
+      search: '+server_name+'
+      use_prompt: 'server_name'

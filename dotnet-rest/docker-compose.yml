@@ -1,0 +1,13 @@
+version: '2'
+services:
+  api:
+    image: $IMAGE_DEV
+    working_dir: /app/src
+    command: dotnet run
+    environment:
+      - ASPNETCORE_URLS=http://*:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 5000:5000
+    volumes:
+      - ./app:/app

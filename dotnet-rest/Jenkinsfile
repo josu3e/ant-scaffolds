@@ -1,0 +1,51 @@
+def fnSteps = evaluate readTrusted("deploy/steps.groovy")
+
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps { checkout scm }
+        }
+        stage('Set Config') {
+            steps { script { config = fnSteps.configs("$GIT_BRANCH") }}
+        }
+        stage('Deploy') {
+            when { expression { return params.EXECUTE == 'DEPLOY' }}
+            steps { 
+                script { 
+                    fnSteps.login_aws_ecr(config) 
+                    fnSteps.create_repository(config) 
+                    fnSteps.build_lates_image(config)
+                    fnSteps.push_aws_ecr(config)
+                    fnSteps.register_task_definition_ecr(config)
+                    fnSteps.update_service_ecr(config)
+                } 
+            }
+        }
+        stage('Delete images of repository') {
+            steps { 
+                script { 
+                    fnSteps.batch_delete_image_aws_ecr(config)
+                } 
+            }
+        }
+        stage('Deregister task definitions') {
+            steps { 
+                script { 
+                    fnSteps.deregister_task_definitions(config)
+                } 
+            }
+        }
+    }
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
+    parameters {
+        choice(
+            name: 'EXECUTE',
+            choices:"DEPLOY",
+            description: 'DEPLOY: Se realiza deploy del microservice')
+    }
+}
