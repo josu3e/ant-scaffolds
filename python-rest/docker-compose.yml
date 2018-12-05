@@ -6,13 +6,5 @@ services:
     container_name: $CONTAINER_NAME
     volumes:
       - ./app/:/app
-    environment:
-      DEPLOY_REGION: $DEPLOY_REGION
-      TZ: America/Lima
     ports:
       - '$CONTAINER_PORT:80'
-
-networks:
-  default:
-    external:
-      name: $DOCKER_NETWORK

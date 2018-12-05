@@ -15,9 +15,6 @@ ADD resources /resources/
 RUN python35 --version
 RUN chmod +x /resources/test.sh
 
-ENV TZ=America/Lima
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 WORKDIR /resources/
 RUN ./setconfigs.sh
 RUN pip-3.5 install -r ./requirements.txt
@@ -25,8 +22,6 @@ RUN pip-3.5 install -r ./requirements.txt
 # STDOUT LOG
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
-
-ADD app /app/
 
 WORKDIR /app
 

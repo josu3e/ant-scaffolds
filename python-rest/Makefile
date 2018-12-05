@@ -5,7 +5,7 @@ CONTAINER_PORT  = {{ container_port }}
 TAG_DEV			= dev
 
 ## Result vars ##
-SERVICE_NAME 	= ${PWD##*/}
+SERVICE_NAME 	= $(basename pwd)
 PROJECT_NAME	= $(SERVICE_NAME)_project
 CONTAINER_NAME 	= $(PROJECT_NAME)_backend
 IMAGE_DEV		= $(PROJECT_NAME):$(TAG_DEV)
