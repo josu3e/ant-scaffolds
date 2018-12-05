@@ -1,5 +1,5 @@
 import click
-from schedules.cli import pass_context
+from pycli.cli import pass_context
 
 
 @click.command()

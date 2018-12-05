@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 setup(
-    name = "{{ product_name }}",
+    name = "pyCLI",
     version = "0.0.1",
     author = "Author Name",
     author_email = "Author Email",
@@ -18,5 +18,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    scripts = ['bin/{{ product_name }}'],
+    scripts = ['bin/pyCLI'],
 )

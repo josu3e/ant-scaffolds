@@ -8,11 +8,11 @@ RUN yum -y update && yum -y install \
     python35-devel \
     gcc
 
-ADD resources /resources/
+ADD docker/dev/resources /resources/
 RUN python35 --version
 
+ADD . /app
 WORKDIR /app
-
-RUN pip3 install -e .
+RUN pip-3.5 install -e .
 
 ENTRYPOINT ['pyCLI']

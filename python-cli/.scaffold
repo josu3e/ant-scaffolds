@@ -6,7 +6,7 @@ scaffold:
   prompts:
     -
       name: 'command_name'
-      description: 'enter the command name'
+      description: 'Enter the command name'
       default: 'example'
   replace_names:
     -

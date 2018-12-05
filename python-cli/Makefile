@@ -2,7 +2,7 @@
 .PHONY : schedules
 
 ## GENERAL ##
-SERVICE_NAME 	= $(basename pwd)
+SERVICE_NAME 	= pytbon_cli
 
 ## DEV ##
 TAG_DEV			= dev
@@ -15,7 +15,7 @@ IMAGE_DEV		= ${PROJECT_NAME}:${TAG_DEV}
 ## Function Dev ##
 
 build: ## build image, use me with: make build
-	docker build -f docker/dev/Dockerfile -t $(IMAGE_DEV) docker/dev/
+	docker build -f docker/dev/Dockerfile -t $(IMAGE_DEV) .
 
 execute: ## Execute a command e.g: make schedules CMD=example
 	@docker run -it --rm -v $(PWD):/app $(IMAGE_DEV) $(CMD)
