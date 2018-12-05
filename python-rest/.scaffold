@@ -1,0 +1,54 @@
+scaffold:
+  author: 'DevLusaja'
+  name: 'python-rest'
+  description: 'API escrita en el lenguaje python utilizando una arquitectura hexagonal.'
+  save_prompts: 'rubick_prompts.json'
+  prompts:
+    -
+      name: 'package'
+      description: 'Ingresa el nombre del paquete principal para tu app'
+      default: 'context'
+    -
+      name: 'api_version'
+      description: 'Ingresa la versión de tu api rest'
+      default: 'v1'
+    -
+      name: 'container_port'
+      description: 'Ingresa el puerto para la aplicación'
+      default: '8080'
+    -
+      name: 'slack_web_hook'
+      description: 'Ingresa el webhook para las notificaciones de slack'
+      default: 'undefined'
+    -
+      name: 'https_listener_dev'
+      description: 'Ingresa el arn del listener para el ambiente de DEV'
+      default: 'undefined'
+    -
+      name: 'https_listener_pre'
+      description: 'Ingresa el arn del listener para el ambiente de PRE'
+      default: 'undefined'
+    -
+      name: 'https_listener_prod'
+      description: 'Ingresa el arn del listener para el ambiente de PROD'
+      default: 'undefined'
+    -
+      name: 'vpc_dev'
+      description: 'Ingresa el arn de la vpc para el ambiente de DEV'
+      default: 'undefined'
+    -
+      name: 'vpc_pre'
+      description: 'Ingresa el arn de la vpc para el ambiente de PRE'
+      default: 'undefined'
+    -
+      name: 'vpc_prod'
+      description: 'Ingresa el arn de la vpc para el ambiente de PROD'
+      default: 'undefined'
+    -
+      name: 'https_priority'
+      description: 'Ingresa la prioridad del listener https'
+      default: 'undefined'
+  replace_names:
+    -
+      search: '+package+'
+      use_prompt: 'package'

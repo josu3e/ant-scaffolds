@@ -1,0 +1,4 @@
+- prefix: '/{{ api_version }}/examples'
+- routes:
+  - /: {{ package }}.application.framework.handlers.example.ExampleCollectionHandler
+  - /{id}: {{ package }}.application.framework.handlers.example.ExampleHandler

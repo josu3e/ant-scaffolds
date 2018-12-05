@@ -1,0 +1,208 @@
+Description: >
+  Construccion del servicio sin reglas de autoscaling.
+
+Parameters:
+  VpcId:
+    Description: Id de la VPC donde se ubica el servicio
+    Type: String
+
+  HttpsListenerArn:
+      Description: Arn del listener para rest https
+      Type: String
+
+  HttpsListenerPriority:
+    Description: Valor de prioridad del listener https
+    Type: Number
+
+  Image:
+    Description: Image to deploy to service
+    Type: String
+
+  ServiceName:
+    Description: Nombre del servicio
+    Type: String
+
+  Env:
+    Description: Ambiente de despliegue
+    Type: String
+
+  Owner:
+    Description: Producto al que le pertenece el servicio
+    Type: String
+  Domain:
+    Description: Ambiente de despliegue
+    Type: String
+
+  MemorySize:
+    Description: Cantidad de memoria asignada a la instancia del contenedor
+    Type: Number
+
+  Cluster:
+    Description: Task Definition que esta designado para ejecutar la tarea
+    Type: String
+
+  DesiredCount:
+    Description: How many instances of this task should we run across our cluster?
+    Type: Number
+
+  PathPrefix:
+    Description: Prefijo del path
+    Type: String
+
+  ContainerPort:
+    Description: Puerto que usa el contenedor
+    Type: Number
+
+Resources:
+
+  Service:
+    Type: AWS::ECS::Service
+    DependsOn:
+      - TargetGroup
+      - TaskDefinition
+      - ServiceRole
+    Properties:
+      Cluster: !Ref Cluster
+      ServiceName: !Sub "${Owner}-${Env}-${ServiceName}"
+      Role: !Ref ServiceRole
+      DesiredCount: !Ref DesiredCount
+      TaskDefinition: !Ref TaskDefinition
+      LoadBalancers:
+        - ContainerName: !Sub "${Owner}-${Env}-${ServiceName}"
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref TargetGroup
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 50
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    DependsOn:
+      - ServiceRole
+    Properties:
+      Family: !Sub "${Owner}-${Env}-${ServiceName}"
+      TaskRoleArn: !Ref TaskRole
+      ContainerDefinitions:
+        - Name: !Sub "${Owner}-${Env}-${ServiceName}"
+          Essential: true
+          Image: !Ref Image
+          Memory: !Ref MemorySize
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Sub "${Owner}-${Env}-${ServiceName}"
+              awslogs-region: !Ref AWS::Region
+          Environment:
+            - Name: DEPLOY_REGION
+              Value: !Ref AWS::Region
+            - Name: TZ
+              Value: America/Lima
+  CloudWatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "${Owner}-${Env}-${ServiceName}"
+      RetentionInDays: 365
+
+  HttpsListenerRule:
+    DependsOn:
+      - TargetGroup
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref HttpsListenerArn
+      Priority: !Ref HttpsListenerPriority
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - !Sub "${PathPrefix}/${ServiceName}*"
+        - Field: host-header
+          Values:
+            - !Ref Domain
+      Actions:
+        - TargetGroupArn: !Ref TargetGroup
+          Type: forward
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      Name: !Sub "${Owner}-${Env}-${ServiceName}"
+      Port: 80
+      Protocol: HTTP
+      Matcher:
+        HttpCode: 200-299
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPath: !Sub "${PathPrefix}/${ServiceName}/doc"
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${Owner}.${Env}.${ServiceName}.ecs"
+      AssumeRolePolicyDocument:
+        Statement:
+        -
+          Effect: "Allow"
+          Principal:
+            Service:
+              - "ecs-tasks.amazonaws.com"
+          Action:
+          - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: !Sub "${Owner}.${Env}.${ServiceName}.task"
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action:
+                - autoscaling:Describe*,
+                - cloudwatch:*,
+                - logs:*",
+                - xray:*
+                - s3:*
+                - sns:*
+              Resource: '*'
+
+  ServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${Owner}.${Env}.${ServiceName}.service"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        -
+          Effect: "Allow"
+          Principal:
+            Service:
+              - "ecs.amazonaws.com"
+          Action:
+              - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: !Sub "${Owner}.${Env}.${ServiceName}.service"
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action:
+                - ec2:AuthorizeSecurityGroupIngress
+                - ec2:Describe*
+                - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
+                - elasticloadbalancing:DeregisterTargets
+                - elasticloadbalancing:Describe*
+                - elasticloadbalancing:RegisterInstancesWithLoadBalancer
+                - elasticloadbalancing:DescribeTargetGroups,
+                - elasticloadbalancing:DescribeTargetHealth,
+                - elasticloadbalancing:RegisterTargets*
+              Resource: '*'
+            - Effect: Allow
+              Action:
+               - xray:*
+              Resource: '*'
+
+Outputs:
+  ServiceName:
+    Description: Nombre del Servicio
+    Value: !GetAtt Service.Name

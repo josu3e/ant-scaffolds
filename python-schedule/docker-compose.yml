@@ -1,0 +1,14 @@
+version: '2'
+services:
+  command:
+    container_name: $CONTAINER_NAME
+    image: $IMAGE_DEV
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    command: tail -f dev/null
+
+networks:
+  default:
+    external:
+      name: $DOCKER_NETWORK

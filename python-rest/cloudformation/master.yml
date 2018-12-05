@@ -1,0 +1,133 @@
+Description: >
+  Scheduled tasks service.
+
+Mappings:
+  RegionMap:
+    eu-west-1:
+      HttpsListener: "{{ https_listener_dev }}"
+      VpcId: "{{ vpc_dev }}"
+      EnvRegion: "dev"
+    us-west-2:
+      HttpsListener: "{{ https_listener_pre }}"
+      VpcId: "{{ vpc_pre }}"
+      EnvRegion: "pre"
+    us-east-1:
+      HttpsListener:  "{{ https_listener_prod }}"
+      VpcId: "{{ vpc_prod }}"
+      EnvRegion: "prod"
+
+Parameters:
+
+  HttpsListenerPriority:
+    Description: Valor de prioridad del listener https
+    Type: Number
+
+  DesiredCount:
+    Description: How many instances of this task should we run across our cluster?
+    Type: Number
+    Default: 1
+
+  MaxScaling:
+    Description: How many instances of this task should we scaling across our cluster?
+    Type: Number
+    Default: 1
+
+  MinScaling:
+    Description: How many instances of this task should we reduce across our cluster?
+    Type: Number
+    Default: 1
+
+  Image:
+    Description: Image to deploy to service
+    Type: String
+
+  Domain:
+    Description: Host
+    Type: String
+    Default: localhost
+
+  ServiceName:
+    Description: Nombre del servicio
+    Type: String
+
+  Env:
+    Description: Ambiente de despliegue
+    Type: String
+
+  Owner:
+    Description: Producto al que le pertenece el servicio
+    Type: String
+
+  PathPrefix:
+    Description: Prefijo del path
+    Type: String
+
+  ContainerPort:
+    Description: Puerto que usa el contenedor
+    Type: Number
+
+  MemorySize:
+    Description: Cantidad de memoria asignada a la instancia del contenedor
+    Type: Number
+
+  S3Path:
+    Description: Path to stacks resources
+    Type: String
+
+Conditions:
+  IsProd: !Equals ["prod", !Ref Env]
+
+Resources:
+
+  Service:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Join
+        - ""
+        - - "https://s3"
+          - !If [IsProd, "", !Sub "-${AWS::Region}"]
+          - !Sub ".amazonaws.com/${S3Path}/service.yml"
+      Parameters:
+        VpcId: !FindInMap [ RegionMap, !Ref "AWS::Region", VpcId]
+        HttpsListenerArn: !Join
+          - ""
+          - - "arn:aws:elasticloadbalancing:"
+            - !Ref AWS::Region
+            - ":929226109038:listener"
+            - !FindInMap [ RegionMap, !Ref "AWS::Region", HttpsListener]
+        HttpsListenerPriority: !Ref HttpsListenerPriority
+        Image: !Ref Image
+        ServiceName: !Ref ServiceName
+        Owner: !Ref Owner
+        Env: !Ref Env
+        Domain: !If [IsProd, !Ref Domain, !Sub "${Env}.${Domain}"]
+        MemorySize: !Ref MemorySize
+        Cluster: !Join
+          - "-"
+          - - !Ref "Owner"
+            - !FindInMap [ RegionMap, !Ref "AWS::Region", EnvRegion]
+        DesiredCount: !Ref DesiredCount
+        ContainerPort: !Ref ContainerPort
+        PathPrefix: !Ref PathPrefix
+
+  AutoSacling:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsProd
+    DependsOn:
+      - Service
+    Properties:
+      TemplateURL: !Join
+        - ""
+        - - "https://s3"
+          - !If [IsProd, "", !Sub "-${AWS::Region}"]
+          - !Sub ".amazonaws.com/${S3Path}/autoscaling.yml"
+      Parameters:
+        Cluster: !Join
+          - "-"
+          - - !Ref "Owner"
+            - !FindInMap [ RegionMap, !Ref "AWS::Region", EnvRegion]
+        ServiceName: !Ref ServiceName
+        Owner: !Ref Owner
+        Env: !Ref Env
+        MaxScaling: !Ref MaxScaling
+        MinScaling: !Ref MinScaling

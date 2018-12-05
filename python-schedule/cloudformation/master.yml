@@ -1,0 +1,76 @@
+Description: >
+  {{ product_name }} scheduled tasks service.
+
+Mappings:
+  RegionMap:
+    eu-west-1:
+      EnvRegion: "dev"
+    us-west-2:
+      EnvRegion: "pre"
+    us-east-1:
+      EnvRegion: "prod"
+
+Parameters:
+  Image:
+    Description: Image to deploy to service
+    Type: String
+
+  ServiceName:
+    Description: Nombre del servicio
+    Type: String
+
+  Env:
+    Description: Ambiente de despliegue
+    Type: String
+
+  Owner:
+    Description: Producto al que le pertenece el servicio
+    Type: String
+
+  MemorySize:
+    Description: Cantidad de memoria asignada a la instancia del contenedor
+    Type: Number
+
+  S3Path:
+    Description: Path to stacks resources
+    Type: String
+
+Conditions:
+    IsProd: !Equals [!Ref "AWS::Region", "us-east-1"]
+
+Resources:
+  TaskDefinition:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Join
+        - ""
+        - - "https://s3"
+          - !If [IsProd, "", !Sub "-${AWS::Region}"]
+          - !Sub ".amazonaws.com/${S3Path}/service.yml"
+      Parameters:
+        Image: !Ref Image
+        ServiceName: !Ref ServiceName
+        Env: !Ref Env
+        Owner: !Ref Owner
+        MemorySize: !Ref MemorySize
+
+  Schedules:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - TaskDefinition
+    Properties:
+      TemplateURL: !Join
+        - ""
+        - - "https://s3"
+          - !If [IsProd, "", !Sub "-${AWS::Region}"]
+          - !Sub ".amazonaws.com/${S3Path}/schedules.yml"
+      Parameters:
+        RoleScheduleArn: !GetAtt TaskDefinition.Outputs.ScheduleRole
+        TaskDefinition: !GetAtt TaskDefinition.Outputs.ScheduleTD
+        ProjectName: !Sub ${Owner}-${Env}-${ServiceName}
+        ClusterArn: !Join
+           - ""
+           - - "arn:aws:ecs:"
+             - !Ref AWS::Region
+             - ":929226109038:cluster/"
+             - !Join ["-",[!Ref Owner, !FindInMap [ RegionMap, !Ref "AWS::Region", EnvRegion] ]]
