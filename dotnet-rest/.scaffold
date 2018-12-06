@@ -8,6 +8,9 @@ scaffold:
       name: 'server_name'
       description: 'Ingresa el nombre del paquete principal para tu app'
       default: 'context'
+    - name: 'product_name'
+      description: 'Ingresa el nombre del producto (pagoefectivo)'
+      default: 'undefined'
   replace_names:
     -
       search: '+server_name+'
