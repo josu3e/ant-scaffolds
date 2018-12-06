@@ -5,6 +5,10 @@ scaffold:
   save_prompts: 'rubick_prompts.json'
   prompts:
     -
+      name: 'product_name'
+      description: 'Ingresa el nombre del producto (urbania, neo, aptitus, pagoefectivo)'
+      default: 'product'
+    -
       name: 'package'
       description: 'Ingresa el nombre del paquete principal para tu app'
       default: 'context'
