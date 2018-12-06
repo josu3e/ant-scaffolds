@@ -4,14 +4,17 @@ scaffold:
   description: 'API escrita en el lenguaje dotnet utilizando rest.'
   save_prompts: 'rubick_prompts.json'
   prompts:
-    -
-      name: 'server_name'
-      description: 'Ingresa el nombre del paquete principal para tu app'
-      default: 'context'
     - name: 'product_name'
       description: 'Ingresa el nombre del producto (pagoefectivo)'
-      default: 'undefined'
+      default: 'project'
+    -
+      name: 'server_name'
+      description: 'Ingresa el nombre del paquete principal para tu app (api)'
+      default: 'api'
   replace_names:
+    -
+      search: '+product_name+'
+      use_prompt: 'product_name'
     -
       search: '+server_name+'
       use_prompt: 'server_name'
