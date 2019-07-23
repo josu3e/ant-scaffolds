@@ -10,8 +10,12 @@ scaffold:
       default: 'example'
     -
       name: 'domain'
-      description: 'Ingrese el nombre de dominio de su producto'
+      description: 'Ingrese el nombre de su dominio'
       default: 'mydomain.com'
+    -
+      name: 'product_name'
+      description: 'Ingrese el nombre de su producto'
+      default: 'product'
   replace_names:
     -
       search: '+owner+'
